@@ -54,3 +54,18 @@ ALTER TABLE ONLY orderitem ALTER COLUMN id SET DEFAULT nextval('orderitem_id_seq
 alter table orderrequest add column tableid integer;
 
 alter table item add column catagory text;
+
+CREATE TABLE catagory (
+    "createdAt" character varying,
+    "updatedAt" character varying,
+    id integer primary key,
+    name real NOT NULL,
+    description real,
+    status text
+);
+
+CREATE SEQUENCE catagory_id_seq;
+
+ALTER SEQUENCE catagory_id_seq OWNED BY catagory.id;
+
+ALTER TABLE ONLY catagory ALTER COLUMN id SET DEFAULT nextval('catagory_id_seq'::regclass);

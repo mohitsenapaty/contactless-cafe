@@ -8,23 +8,20 @@ const {
 const { logger } = require('../../config/logger');
 
 const {
-  Item,
+  Catagory,
 } = global.sequelize;
 
-exports.createItem = async (req, res, next) => {
+exports.createCatagory = async (req, res, next) => {
   try {
     const itemObj = {
       itemid: uuidv4(),
       ...pick(req.body, [
-        'itemname',
-        'price',
+        'name',
         'description',
-        'picurl',
-        'catagory',
       ]),
       status: 'ACTIVE',
     };
-    const creation = await Item.create(itemObj);
+    const creation = await Catagory.create(itemObj);
     return res.status(httpStatus.OK).json({
       code: httpStatus.OK,
       message: 'Item created successfully',
@@ -36,64 +33,62 @@ exports.createItem = async (req, res, next) => {
   }
 };
 
-exports.getItem = async (req, res, next) => {
+exports.getCatagory = async (req, res, next) => {
   try {
-    const { itemid } = req.params;
-    const items = await Item.findOne({
-      where: { itemid },
+    const { name } = req.params;
+    const cats = await Catagory.findOne({
+      where: { name },
       raw: true,
     });
     return res.status(httpStatus.OK).json({
       code: httpStatus.OK,
-      message: 'Item found successfully',
-      data: items,
+      message: 'Catagory found successfully',
+      data: cats,
     });
   } catch (err) {
-    logger.error('Item get failed with ', err);
+    logger.error('Catagory get failed with ', err);
     return next(err);
   }
 };
 
-exports.listItem = async (req, res, next) => {
+exports.listCatagory = async (req, res, next) => {
   try {
     const filterParams = { ...req.query };
-    const items = await Item.findAll({
+    const cats = await Catagory.findAll({
       where: filterParams,
       raw: true,
     });
     return res.status(httpStatus.OK).json({
       code: httpStatus.OK,
-      message: 'Item found successfully',
-      data: items,
+      message: 'Catagory found successfully',
+      data: cats,
     });
   } catch (err) {
-    logger.error('Item get failed with ', err);
+    logger.error('Catagory get failed with ', err);
     return next(err);
   }
 };
 
-exports.editItem = async (req, res, next) => {
+exports.editCatagory = async (req, res, next) => {
   try {
-    const { itemid } = req.params;
+    const { name } = req.params;
     const updObj = {
       ...req.body,
     };
-    console.log(itemid, updObj);
-    const items = await Item.update(updObj, {
+    const cat = await Catagory.update(updObj, {
       where: {
-        itemid,
+        name,
       },
       returning: true,
       plain: true,
     });
-    console.log(items);
     return res.status(httpStatus.OK).json({
       code: httpStatus.OK,
-      message: 'Item found successfully',
-      data: items[1].dataValues,
+      message: 'Catagory found successfully',
+      data: cat[1].dataValues,
     });
   } catch (err) {
-    logger.error('Item get failed with ', err);
+    logger.error('Catagory edit failed with ', err);
     return next(err);
   }
 };
