@@ -9,6 +9,7 @@ const {
   remove,
   groupBy,
   isEmpty,
+  orderBy,
 } = require('lodash');
 
 const { logger } = require('../../config/logger');
@@ -104,6 +105,7 @@ exports.getOrder = async (req, res, next) => {
         oi.item = item;
       }
     });
+    orderBy(orderItems, ['itemid']);
     order.orderitems = orderItems;
     return res.status(httpStatus.OK).json({
       code: httpStatus.OK,
@@ -138,14 +140,16 @@ exports.listOrder = async (req, res, next) => {
           oi.item = item;
         }
       });
+      orderBy(orderItems, ['itemid']);
       // eslint-disable-next-line no-param-reassign
       order.orderitems = orderItems;
       return order;
     });
+    const sortedList = orderBy(orderList, ['tableid'], ['asc']);
     return res.status(httpStatus.OK).json({
       code: httpStatus.OK,
       message: 'Order Listed successfully',
-      data: orderList,
+      data: sortedList,
     });
   } catch (err) {
     logger.error('Order list failed with ', err);
@@ -220,6 +224,7 @@ exports.editOrderItems = async (req, res, next) => {
       where: { orderid: order.orderid },
     });
     order.totalprice = newTotal;
+    orderBy(orderItems, ['itemid']);
     order.orderitems = orderItems;
     return res.status(httpStatus.OK).json({
       code: httpStatus.OK,
