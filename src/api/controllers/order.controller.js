@@ -207,12 +207,15 @@ exports.editOrderItems = async (req, res, next) => {
     });
     remove(orderItems, (item) => (item.status === 'CANCELLED'));
     let newTotal = 0;
+    let completedOrder = true;
     each(orderItems, (oi) => {
       newTotal += oi.totalprice;
+      completedOrder = (oi.status === 'CANCELLED' || oi.status === 'DELIVERED') ? oi.status && true : false;
     });
     await Order.update({
       totalprice: newTotal,
-      status: (newTotal === 0) ? 'CANCELLED' : order.status,
+      // eslint-disable-next-line no-nested-ternary
+      status: (newTotal === 0) ? 'CANCELLED' : (completedOrder) ? 'COMPLETED' : order.status,
     }, {
       where: { orderid: order.orderid },
     });
