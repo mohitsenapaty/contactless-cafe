@@ -69,3 +69,27 @@ CREATE SEQUENCE catagory_id_seq;
 ALTER SEQUENCE catagory_id_seq OWNED BY catagory.id;
 
 ALTER TABLE ONLY catagory ALTER COLUMN id SET DEFAULT nextval('catagory_id_seq'::regclass);
+
+alter table orderrequest add column paystatus text;
+
+CREATE TABLE payment (
+    "createdAt" character varying,
+    "updatedAt" character varying,
+    id integer primary key,
+    paymentid uuid NOT NULL,
+    orderid uuid not null,
+    txntoken text,
+    amount real not null,
+    provider text,
+    description real,
+    recordedon timestamp without time zone,
+    status text
+);
+
+CREATE SEQUENCE payment_id_seq;
+
+ALTER SEQUENCE payment_id_seq OWNED BY payment.id;
+
+ALTER TABLE ONLY payment ALTER COLUMN id SET DEFAULT nextval('payment_id_seq'::regclass);
+
+alter table payment add column mode text;

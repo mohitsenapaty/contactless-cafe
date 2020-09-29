@@ -59,6 +59,7 @@ exports.createOrder = async (req, res, next) => {
       ]),
       totalprice: getTotalOrderPrice(validItems),
       status: 'CREATED',
+      paystatus: 'UNPAID',
     };
     const createdOrder = await Order.create(orderObj);
     const returnOrder = createdOrder.dataValues;
@@ -165,7 +166,6 @@ exports.editOrder = async (req, res, next) => {
         'status',
       ]),
     };
-    console.log(orderid, updObj);
     const orders = await Order.update(updObj, {
       where: {
         orderid,
@@ -173,7 +173,6 @@ exports.editOrder = async (req, res, next) => {
       returning: true,
       plain: true,
     });
-    console.log(orders);
     return res.status(httpStatus.OK).json({
       code: httpStatus.OK,
       message: 'Order updated successfully',

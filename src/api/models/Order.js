@@ -24,6 +24,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
+    paystatus: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
   }, {
     tableName: 'orderrequest',
   });

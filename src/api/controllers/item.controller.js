@@ -78,7 +78,6 @@ exports.editItem = async (req, res, next) => {
     const updObj = {
       ...req.body,
     };
-    console.log(itemid, updObj);
     const items = await Item.update(updObj, {
       where: {
         itemid,
@@ -86,7 +85,6 @@ exports.editItem = async (req, res, next) => {
       returning: true,
       plain: true,
     });
-    console.log(items);
     return res.status(httpStatus.OK).json({
       code: httpStatus.OK,
       message: 'Item found successfully',

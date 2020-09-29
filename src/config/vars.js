@@ -17,4 +17,17 @@ module.exports = {
   pg: {
     uri: process.env.DEV_DATABASE_URL,
   },
+  paytmConfig: {
+    mid: process.env.PAYTM_MID,
+    key: process.env.PAYTM_KEY,
+    website: process.env.PAYTM_WEBSITE,
+    endpoint: process.env.PAYTM_URI,
+    callback: process.env.PAYTM_CALLBACK,
+    initTxApiEndpoint: 'https://securegw-stage.paytm.in',
+    initTxPath: '/theia/api/v1/initiateTransaction',
+    getPaymentStatusPath: '/merchant-status/api/v1/getPaymentStatus',
+    fetchPayOptionsPath: '/theia/api/v2/fetchPaymentOptions',
+    processTxPath: '/theia/api/v1/initiateTransaction',
+  },
+  targetUrl: process.env.TARGET_URL,
 };

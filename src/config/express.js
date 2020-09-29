@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const methodOverride = require('method-override');
 const cors = require('cors');
+const path = require('path');
 const helmet = require('helmet');
 const passport = require('passport');
 const { middlewareLogger } = require('./logger');
@@ -18,6 +19,11 @@ const app = express();
 
 // request logging. dev: console | production: file
 app.use(middlewareLogger);
+
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'ejs');
+
+app.use(express.static(path.join(__dirname, 'public')));
 
 // parse body params and attache them to req.body
 // @HACK: increase the size of request payload
